@@ -1,23 +1,59 @@
-import userData from "../../userData.json";
-import friends from "../../friends.json";
-import transactions from "../../transactions.json";
-// import css from "./App.module.css";
-import Profile from "../Profile/Profile";
-import FriendList from "../FriendList/FriendList";
-import TransactionHistory from "../TransactionHistory/TransactionHistory";
+import css from "./App.module.css";
+import Description from "../../components/Description/Description";
+import Feedback from "../../components/Feedback/Feedback";
+import Options from "../../components/Options/Options";
+import Notification from "../../components/Notification/Notification";
+import { useState, useEffect } from "react";
 
-export default function App() {
+function App() {
+  const [feedback, setFeedback] = useState(() => {
+    const saveFeedback = window.localStorage.getItem("saved-feedback");
+    if (saveFeedback !== null) {
+      return JSON.parse(saveFeedback);
+    }
+    return { good: 0, neutral: 0, bad: 0 };
+  });
+
+  const updateFeedback = (feedbackType) => {
+    setFeedback((prev) => ({
+      ...prev,
+      [feedbackType]: prev[feedbackType] + 1,
+    }));
+  };
+
+  useEffect(() => {
+    window.localStorage.setItem("saved-feedback", JSON.stringify(feedback));
+  }, [feedback]);
+
+  const reset = () => {
+    setFeedback({
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    });
+  };
+
+  const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
+  const positiveFeedback = Math.round((feedback.good / totalFeedback) * 100);
+
   return (
     <>
-      <Profile
-        name={userData.username}
-        tag={userData.tag}
-        location={userData.location}
-        image={userData.avatar}
-        stats={userData.stats}
+      <Description />
+      <Options
+        updateFeedback={updateFeedback}
+        totalFeedback={totalFeedback}
+        reset={reset}
       />
-      <FriendList friends={friends} />
-      <TransactionHistory items={transactions} />
+      {totalFeedback > 0 && (
+        <Feedback
+          feedback={feedback}
+          totalFeedback={totalFeedback}
+          positiveFeedback={positiveFeedback}
+        />
+      )}
+      {totalFeedback <= 0 && <Notification />}
     </>
   );
 }
+
+export default App;
