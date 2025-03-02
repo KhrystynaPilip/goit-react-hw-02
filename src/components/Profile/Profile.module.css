@@ -1,0 +1,65 @@
+.container {
+  border: 4px solid #212121;
+  border-radius: 10px;
+  width: 600px;
+  color: black;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+.persInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  padding: 32px;
+}
+
+.avatar {
+  width: 175px;
+  border-radius: 100px;
+  overflow: hidden;
+  background-color: rgb(59, 58, 58);
+}
+
+.name {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+
+.descr {
+  font-size: 28px;
+  color: gray;
+}
+
+.list {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgb(201, 191, 191);
+}
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-top: 3px solid #585555;
+}
+
+.listItem:nth-last-of-type(2) {
+  border-left: 3px solid #585555;
+  border-right: 3px solid #585555;
+}
+.listTitle {
+  font-size: 24px;
+}
+
+.listValue {
+  font-size: 24px;
+  font-weight: 700;
+}
